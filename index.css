@@ -4,13 +4,19 @@
 }
 
 /* INPUT */
-.input {
+.input__main {
     display: flex;
     gap: 10px;
 }
 
 .input__field {
     position: relative;
+}
+
+.input__text {
+    font-size: 19px;
+    line-height: normal;
+    font-family: 'Roboto Mono', monospace;
 }
 
 .input__value {
@@ -23,4 +29,51 @@
     background-color: transparent;
     outline: none;
     border: none;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* SELECTOR */
+.selector {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.selector__button {
+    cursor: pointer;
+}
+
+.selector__button.is-disabled {
+    pointer-events: none;
+    opacity: .6;
+}
+
+.selector__dropdown {
+    transition: 0.3s ease;
+    transition-property: opacity, height;
+
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 300px;
+    opacity: 1;
+    overflow-y: scroll;
+}
+
+.selector__dropdown.is-hidden {
+    opacity: 0;
+    height: 0;
+}
+
+.selector__option {
+    display: block;
+}
+
+.selector__option.is-active {
+    background-color: gray;
 }

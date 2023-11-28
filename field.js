@@ -1,38 +1,22 @@
-const isNumber = (v) => !isNaN(Number(v))
-
-/**
- * @param {number} index
- * @returns {boolean}
- */
-const isDayField = (index) => [0, 1].includes(index)
-/**
- * @param {number} index
- * @returns {boolean}
- */
-const isMonthField = (index) => [2, 3].includes(index)
-/**
- * @param {number} index
- * @returns {boolean}
- */
-const isYearField = (index) => [4, 5, 6, 7].includes(index)
-
-/**
- * @param {string} value
- * @returns {string}
- */
-const removeSeparators = (value) => value.replaceAll(/\./g, '')
-
 class Field {
     #value = ''
 
     /**
+     * @type {HTMLDivElement}
+     * */
+    #rootElement
+    /**
      * @type {HTMLInputElement}
      * */
-    #inputElement = 'test'
+    #inputElement
     /**
      * @type {HTMLSpanElement}
      * */
     #contentElement
+    /**
+     * @type {HTMLSpanElement}
+     * */
+    #cursorElement
 
     get value() {
         return this.#value
@@ -67,13 +51,39 @@ class Field {
         this.#contentElement = element
     }
 
+    get cursorElement() {
+        return this.#cursorElement
+    }
+
+    /**
+     * @param {HTMLSpanElement} element
+     */
+    set cursorElement(element) {
+        this.#cursorElement = element
+    }
+
+    get rootElement() {
+        return this.#rootElement
+    }
+
+    /**
+     * @param {HTMLDivElement} element
+     */
+    set rootElement(element) {
+        this.#rootElement = element
+    }
+
     /**
      * @param {string} id
      * */
     constructor(id) {
-        this.inputElement = document.querySelector(`#${id}`).querySelector('.input__value')
+        this.rootElement = document.querySelector(`#${id}`)
+        this.inputElement = this.rootElement.querySelector('.input__value')
         this.inputElement.addEventListener('input', () => this.onInput())
-        this.contentElement = document.querySelector(`#${id}`).querySelector('.input__text')
+        this.inputElement.addEventListener('focus', () => this.onFocus())
+        this.inputElement.addEventListener('blur', () => this.onBlur())
+        this.contentElement = this.rootElement.querySelector('.input__text')
+        this.cursorElement = this.rootElement.querySelector('.input__cursor')
     }
 
     /**
@@ -97,13 +107,20 @@ class Field {
         return removeSeparators(newValue)
     }
 
+    onFocus() {
+        this.rootElement.classList.add('is-focused')
+    }
+
+    onBlur() {
+        this.rootElement.classList.remove('is-focused')
+    }
+
     onInput() {
         const newValue = this.inputElement.value
         const convertedValue = this.converter(this.backspaceFormated(newValue))
-        const currentValue = this.value
 
-        console.log(convertedValue, currentValue)
         this.value = convertedValue
+        this.inputElement.value = convertedValue
         this.contentElement.innerText = convertedValue
     }
 
@@ -161,14 +178,15 @@ class Field {
                 result += '0' + value[2] + '.'
                 return this.converter(value, valueIndex, result)
             }
+            if (isYearField(valueIndex) && isNumber(value[valueIndex])) {
+                result += value[valueIndex]
+                valueIndex += 1;
+                return this.converter(value, valueIndex, result)
+            }
 
             return result
         }
 
         return result
     }
-}
-
-window.onload = () => {
-    const fromField = new Field('input_from')
 }
