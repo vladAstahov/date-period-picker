@@ -19,32 +19,34 @@
                     <span class="input__text">ДД.ММ.ГГГГ</span>
                     <input class="input__value" />
                 </div>
-                <button>D</button>
+                <button class="input__clear">D</button>
 
-                <button>X</button>
+                <button class="input__toggle-picker">X</button>
             </div>
-            <div class="input__year selector">
-                <button class="selector__button selector__button--left is-disabled">P</button>
-                <button class="selector__dropdown-toggle">
-                    <span class="selector__content">Выберите год</span>
-                </button>
-                <button class="selector__button selector__button--right is-disabled">N</button>
-                <div class="selector__dropdown is-hidden">
+            <div class="input__dropdown is-hidden">
+                <div class="input__year selector">
+                    <button class="selector__button selector__button--left is-disabled">P</button>
+                    <button class="selector__dropdown-toggle">
+                        <span class="selector__content">Выберите год</span>
+                    </button>
+                    <button class="selector__button selector__button--right is-disabled">N</button>
+                    <div class="selector__dropdown is-hidden">
 
+                    </div>
                 </div>
-            </div>
-            <div class="input__month selector">
-                <button class="selector__button selector__button--left is-disabled">P</button>
-                <button class="selector__dropdown-toggle">
-                    <span class="selector__content">Выберите месяц</span>
-                </button>
-                <button class="selector__button selector__button--right is-disabled">N</button>
-                <div class="selector__dropdown is-hidden">
+                <div class="input__month selector">
+                    <button class="selector__button selector__button--left is-disabled">P</button>
+                    <button class="selector__dropdown-toggle">
+                        <span class="selector__content">Выберите месяц</span>
+                    </button>
+                    <button class="selector__button selector__button--right is-disabled">N</button>
+                    <div class="selector__dropdown is-hidden">
 
+                    </div>
                 </div>
-            </div>
-            <div class="input_calendar calendar">
-                <div class="calendar__header"></div>
+                <div class="input_calendar calendar is-hidden">
+                    <div class="calendar__header"></div>
+                </div>
             </div>
         </div>
         <div id="input_to" class="input picker__input">
@@ -66,11 +68,15 @@
     <script src="the-selector.js"></script>
     <script src="year-selector.js"></script>
     <script src="month-selector.js"></script>
+    <script src="calendar.js"></script>
+    <script src="date-picker.js"></script>
     <script>
         window.onload = () => {
-            const fromField = new Field('input_from')
-            const yearSelector = new YearSelector('input_from')
-            const monthSelector = new MonthSelector('input_from')
+            // const fromField = new Field('input_from')
+            // const yearSelector = new YearSelector('input_from')
+            // const monthSelector = new MonthSelector('input_from')
+            // const calendar = new Calendar('input_from', 10, 2023, 'start')
+            const datePickerFrom = new DatePicker('input_from', 'start')
         }
     </script>
 </body>

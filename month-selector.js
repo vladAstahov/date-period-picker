@@ -26,7 +26,7 @@ class MonthSelector extends TheSelector {
      */
     constructor(id) {
         const root = document.querySelector(`#${id}`).querySelector('.input__month')
-        super(root, getMonthByIndex)
+        super(root, getMonthByIndex, 'Выберите месяц')
         this.generateOptions()
     }
 

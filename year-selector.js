@@ -4,7 +4,7 @@ class YearSelector extends TheSelector {
      */
     constructor(id) {
         const root = document.querySelector(`#${id}`).querySelector('.input__year')
-        super(root)
+        super(root, v => v, 'Выберите год')
         this.generateOptions()
     }
 

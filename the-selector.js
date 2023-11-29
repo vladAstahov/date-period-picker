@@ -25,6 +25,16 @@ class TheSelector {
      */
     #value = null
 
+    /**
+     * @type {(value: number) => void}
+     * */
+    #onChange
+
+    /**
+     * @type {string}
+     * */
+    #emptyValue
+
     get rootElement() {
         return this.#rootElement
     }
@@ -69,18 +79,33 @@ class TheSelector {
         return this.#value
     }
 
-    /**
-     * @param {number} newValue
-     */
     set value(newValue) {
         this.#value = newValue
     }
 
+    get onChange() {
+        return this.#onChange
+    }
+
+    set onChange(handler) {
+        this.#onChange = handler
+    }
+
+    get emptyValue() {
+        return this.#emptyValue
+    }
+
+    set emptyValue(content) {
+        this.#emptyValue = content
+    }
+
     /**
      * @param {HTMLDivElement} root
-     * @param {undefined | (value: number) => string} textGetter 
+     * @param {undefined | ((value: number) => string)} textGetter
+     * @param {string} emptyContent
      */
-    constructor(root, textGetter) {
+    constructor(root, textGetter, emptyContent) {
+        this.emptyValue = emptyContent
         this.rootElement = root
         this.textElement = this.rootElement.querySelector('.selector__content')
         this.textElementGetter = textGetter
@@ -101,13 +126,15 @@ class TheSelector {
     }
 
     onValueUpdate() {
-        this.textElement.innerText = this.textElementGetter ? this.textElementGetter(this.value) : `${this.value}`
+        this.textElement.innerText = this.value ? this.textElementGetter ? this.textElementGetter(this.value) : `${this.value}` : this.emptyValue
         const prevActiveOption = this.rootElement.querySelector('.selector__option.is-active')
         if (prevActiveOption) {
             this.rootElement.querySelector('.selector__option.is-active').classList.remove('is-active')
         }
-        this.rootElement.querySelector(`.selector__option.selector__option--${this.value}`).classList.add('is-active')
+
+        this.rootElement.querySelector(`.selector__option.selector__option--${this.value}`)?.classList.add('is-active')
         this.rootElement.querySelectorAll('.selector__button').forEach(element => element.classList.remove('is-disabled'))
+        this.onChange(this.value)
     }
 
     /**
@@ -129,6 +156,20 @@ class TheSelector {
 
     onPrevYear() {
         this.value = this.value - 1
+        this.onValueUpdate()
+    }
+
+    setOnChange(handler) {
+        this.onChange = handler
+    }
+
+    setValue(newValue) {
+        this.value = newValue
+        this.onValueUpdate()
+    }
+
+    reset() {
+        this.value = null
         this.onValueUpdate()
     }
 }

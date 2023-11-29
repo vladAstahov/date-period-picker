@@ -18,6 +18,11 @@ class Field {
      * */
     #cursorElement
 
+    /**
+     * @type {(value: string) => void}
+     * */
+    #onChange
+
     get value() {
         return this.#value
     }
@@ -73,6 +78,14 @@ class Field {
         this.#rootElement = element
     }
 
+    get onChange() {
+        return this.#onChange
+    }
+
+    set onChange(handler) {
+        this.#onChange = handler
+    }
+
     /**
      * @param {string} id
      * */
@@ -101,6 +114,7 @@ class Field {
     backspaceFormated(newValue) {
         const removedIndex = this.isSeparatorRemoved(newValue)
         if (!!removedIndex) {
+            // TODO: relize
             console.log(removedIndex)
         }
 
@@ -122,6 +136,10 @@ class Field {
         this.value = convertedValue
         this.inputElement.value = convertedValue
         this.contentElement.innerText = convertedValue
+
+        if (convertedValue.length === 10) {
+            this.onChange(convertedValue)
+        }
     }
 
     /**
@@ -188,5 +206,13 @@ class Field {
         }
 
         return result
+    }
+
+    setOnChange(handler) {
+        this.onChange = handler
+    }
+
+    reset() {
+        this.value = 'ДД.ММ.ГГГГ'
     }
 }
