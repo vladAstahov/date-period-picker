@@ -213,6 +213,8 @@ class Field {
     }
 
     reset() {
-        this.value = 'ДД.ММ.ГГГГ'
+        this.value = ''
+        this.inputElement.value = ''
+        this.contentElement.innerText = 'ДД.ММ.ГГГГ'
     }
 }
