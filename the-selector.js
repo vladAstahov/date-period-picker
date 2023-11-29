@@ -126,7 +126,7 @@ class TheSelector {
     }
 
     onValueUpdate() {
-        this.textElement.innerText = this.value ? this.textElementGetter ? this.textElementGetter(this.value) : `${this.value}` : this.emptyValue
+        this.textElement.innerText = this.value !== null ? this.textElementGetter ? this.textElementGetter(this.value) : `${this.value}` : this.emptyValue
         const prevActiveOption = this.rootElement.querySelector('.selector__option.is-active')
         if (prevActiveOption) {
             this.rootElement.querySelector('.selector__option.is-active').classList.remove('is-active')
@@ -170,6 +170,7 @@ class TheSelector {
 
     reset() {
         this.value = null
+        this.rootElement.querySelectorAll('.selector__button').forEach(element => element.classList.add('is-disabled'))
         this.onValueUpdate()
     }
 }

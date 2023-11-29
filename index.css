@@ -111,3 +111,11 @@
 .calendar__option {
     width: calc(100% / 7);
 }
+
+.calendar__option--selected {
+    background-color: aqua;
+}
+
+.calendar__option--active {
+    background-color: blue;
+}

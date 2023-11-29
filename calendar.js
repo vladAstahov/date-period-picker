@@ -113,7 +113,6 @@ class Calendar {
     constructor(id, type) {
         this.rootElement = document.querySelector(`#${id}`).querySelector('.calendar')
         this.type = type
-        this.generateList()
     }
 
     /**
@@ -121,22 +120,24 @@ class Calendar {
      * */
     onPressOption(date) {
         if (this.type === 'start') {
-            this.start = date
+            this.start = date.id
             this.onChange({
-                start: date
+                start: date.id
             })
         } else {
-            this.end = date
+            this.end = date.id
             this.onChange({
-                end: date
+                end: date.id
             })
         }
+        this.onBreakProintsChange()
     }
 
     /**
      * @param {number} date
      * */
     getDayType(date) {
+        // console.log(this.start, this.end, 'PERIOD')
         if (date === this.start || date === this.end) return 'active'
         if (this.start && this.end && date > this.start && date < this.end) return 'selected'
         return 'default'
@@ -146,8 +147,6 @@ class Calendar {
         const newList = []
         const dateCount = new Date(this.year, this.month, 0).getDate()
         const firstDay = new Date(this.year, this.month, 0).getDay()
-        const lastDay = new Date(this.year, this.month, dateCount).getDay()
-
 
         if (firstDay !== 1) {
             for (let empty = 0; empty < firstDay; empty++) {
@@ -162,22 +161,29 @@ class Calendar {
             })
         }
 
-        if (lastDay !== 0) {
-            for (let empty = 0; empty <= 7 - lastDay; empty++) {
-                newList.push(null)
-            }
+        const emptyEndLength = 7 - newList.length % 7
+
+        for (let emptyEnd = 1; emptyEnd <= emptyEndLength; emptyEnd++) {
+            console.log(emptyEnd)
+            newList.push(null)
         }
 
         this.list = newList
         this.rootElement.innerHTML = ''
         this.list.forEach(day => {
             const option = document.createElement('button')
-            option.classList.add('calendar__option')
+            option.classList.add(`calendar__option`)
             if (day) {
                 option.innerText = `${day.id}`
                 option.addEventListener('click', () => this.onPressOption(day))
             }
             this.rootElement.appendChild(option)
+        })
+    }
+
+    onBreakProintsChange() {
+        this.rootElement.childNodes.forEach(dayButton => {
+            dayButton.classList = `calendar__option calendar__option--${this.getDayType(Number(dayButton.innerText))}`
         })
     }
 
@@ -206,6 +212,7 @@ class Calendar {
      * */
     setStart(newStart) {
         this.start = newStart
+        this.onBreakProintsChange()
     }
 
     /**
@@ -213,6 +220,7 @@ class Calendar {
      * */
     setEnd(newEnd) {
         this.end = newEnd
+        this.onBreakProintsChange()
     }
 
     show() {
@@ -230,10 +238,10 @@ class Calendar {
     reset() {
         if (this.type === 'start') {
             this.start = null
-            this.onChange({start: null})
+            this.onChange({ start: null })
         } else {
             this.end = null
-            this.onChange({end: null})
+            this.onChange({ end: null })
         }
     }
 }
