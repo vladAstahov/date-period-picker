@@ -19,7 +19,7 @@ class YearSelector extends TheSelector {
             option.addEventListener('click', () => this.onOptionPress(optionYear))
 
             console.assert(currentYear)
-            this.selectorElement.appendChild(option)
+            this.selectorElement.querySelector('.selector__list').appendChild(option)
         }
     }
 }

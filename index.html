@@ -20,7 +20,8 @@
                 <div class="input__main">
                     <span class="input__label">ДАТА ОТ</span>
                     <div class="input__field">
-                        <span class="input__text">ДД<span class="input__dot">.</span>ММ<span class="input__dot">.</span>ГГГГ</span>
+                        <span class="input__text">ДД<span class="input__dot">.</span>ММ<span
+                                class="input__dot">.</span>ГГГГ</span>
                         <input class="input__value" />
                     </div>
                     <button class="input__toggle-picker">D</button>
@@ -35,9 +36,9 @@
                         <input class="input__value" />
                     </div>
                     <button class="input__toggle-picker">D</button>
-
-                    <button class="input__clear is-hidden">X</button>
                 </div>
+
+                <button class="input__clear is-hidden">X</button>
             </div>
         </div>
         <div class="picker__dropdowns">
@@ -49,7 +50,22 @@
                     </button>
                     <button class="selector__button selector__button--right is-disabled">N</button>
                     <div class="selector__dropdown is-hidden">
+                        <div class="selector__header">
+                            <button class="selector__close">B</button>
+                            <p class="selector__title">Выберите год</p>
+                            <button class="selector__close">B</button>
+                        </div>
+                        <div class="selector__search">
+                            <img src="./assets/search.svg" />
+                            <input class="selector__value" placeholder="Поиск" />
+                        </div>
+                        <div class="selector__list">
 
+                        </div>
+                        <div class="selector__actions">
+                            <button class="selector__submit is-disabled">Применить</button>
+                            <button class="selector__reset">Сбросить</button>
+                        </div>
                     </div>
                 </div>
                 <div class="input__month selector">
@@ -59,7 +75,22 @@
                     </button>
                     <button class="selector__button selector__button--right is-disabled">N</button>
                     <div class="selector__dropdown is-hidden">
+                        <div class="selector__header">
+                            <button class="selector__close">B</button>
+                            <p class="selector__title">Выберите месяц</p>
+                            <button class="selector__close">B</button>
+                        </div>
+                        <div class="selector__search">
+                            <img src="./assets/search.svg" />
+                            <input class="selector__value" placeholder="Поиск" />
+                        </div>
+                        <div class="selector__list">
 
+                        </div>
+                        <div class="selector__actions">
+                            <button class="selector__submit is-disabled">Применить</button>
+                            <button class="selector__reset">Сбросить</button>
+                        </div>
                     </div>
                 </div>
                 <div class="input_calendar calendar is-hidden">
@@ -74,7 +105,22 @@
                     </button>
                     <button class="selector__button selector__button--right is-disabled">N</button>
                     <div class="selector__dropdown is-hidden">
+                        <div class="selector__header">
+                            <button class="selector__close">B</button>
+                            <p class="selector__title">Выберите год</p>
+                            <button class="selector__close">B</button>
+                        </div>
+                        <div class="selector__search">
+                            <img src="./assets/search.svg" />
+                            <input class="selector__value" placeholder="Поиск" />
+                        </div>
+                        <div class="selector__list">
 
+                        </div>
+                        <div class="selector__actions">
+                            <button class="selector__submit is-disabled">Применить</button>
+                            <button class="selector__reset">Сбросить</button>
+                        </div>
                     </div>
                 </div>
                 <div class="input__month selector">
@@ -84,7 +130,22 @@
                     </button>
                     <button class="selector__button selector__button--right is-disabled">N</button>
                     <div class="selector__dropdown is-hidden">
+                        <div class="selector__header">
+                            <button class="selector__close">B</button>
+                            <p class="selector__title">Выберите месяц</p>
+                            <button class="selector__close">B</button>
+                        </div>
+                        <div class="selector__search">
+                            <img src="./assets/search.svg" />
+                            <input class="selector__value" placeholder="Поиск" />
+                        </div>
+                        <div class="selector__list">
 
+                        </div>
+                        <div class="selector__actions">
+                            <button class="selector__submit is-disabled">Применить</button>
+                            <button class="selector__reset">Сбросить</button>
+                        </div>
                     </div>
                 </div>
                 <div class="input_calendar calendar is-hidden">
@@ -93,8 +154,8 @@
             </div>
         </div>
         <div class="picker__action is-hidden">
-            <button class="picker__reset">reset</button>
-            <button class="picker__submit">submit</button>
+            <button class="picker__reset is-disabled">Сбросить</button>
+            <button class="picker__submit is-disabled">Применить</button>
         </div>
     </div>
     <script src="variables.js" async defer></script>

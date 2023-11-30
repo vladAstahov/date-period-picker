@@ -177,6 +177,7 @@ class Field {
         this.value = convertedValue
         this.inputElement.value = convertedValue
         this.contentElement.innerHTML = this.toContentValue(convertedValue)
+        this.rootElement.classList.remove('is-submited')
 
         if (convertedValue.length === 10) {
             this.onChange(convertedValue)
@@ -207,6 +208,7 @@ class Field {
             const monthName = monthMap[Number(month) - 1]
 
             this.contentElement.innerText = `${day} ${monthName} ${year}`
+            this.rootElement.classList.add('is-submited')
         }
     }
 
@@ -288,5 +290,6 @@ class Field {
         this.value = ''
         this.inputElement.value = ''
         this.contentElement.innerText = 'ДД.ММ.ГГГГ'
+        this.rootElement.classList.remove('is-submited')
     }
 }

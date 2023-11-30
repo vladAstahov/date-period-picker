@@ -123,7 +123,18 @@ class MultiPicker {
                     end: 32
                 })
             }
+            this.enableSubmitButton()
         }
+    }
+
+    enableSubmitButton() {
+        this.submitButton.classList.remove('is-disabled')
+        this.resetButton.classList.remove('is-disabled')
+    }
+
+    disableSubmitButton() {
+        this.submitButton.classList.add('is-disabled')
+        this.resetButton.classList.add('is-disabled')
     }
 
     /**
@@ -170,10 +181,12 @@ class MultiPicker {
     reset() {
         this.from.reset()
         this.to.reset()
+        this.disableSubmitButton()
     }
 
     submit() {
         this.from.submit()
         this.to.submit()
+        this.toggleActions()
     }
 }

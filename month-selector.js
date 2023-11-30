@@ -22,7 +22,7 @@ class MonthSelector extends TheSelector {
             option.innerText = `${getMonthByIndex(month)}`
             option.addEventListener('click', () => this.onOptionPress(month))
 
-            this.selectorElement.appendChild(option)
+            this.selectorElement.querySelector('.selector__list').appendChild(option)
         }
     }
 }
