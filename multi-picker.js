@@ -132,29 +132,28 @@ class MultiPicker {
      */
     onToggleDropdown(state, type) {
         console.log(state, 'onToggleDropdown')
-        if (device_type === 'desktop') { 
-            this.from.toggleDropdown(state)
-            // if (type === 'start') {
-            //     this.from.toggleDropdown(state)
-            //     this.isFromExpand = state
-            // } else {
-            //     this.to.toggleDropdown(state)
-            //     this.isToExpand = state
-            // }
-            // this.toggleActions(this.isFromExpand && this.isToExpand)
+        if (device_type === 'desktop') {
+            if (type === 'start') {
+                this.from.toggleDropdown(state)
+                this.isFromExpand = state
+            } else {
+                this.to.toggleDropdown(state)
+                this.isToExpand = state
+            }
+            this.toggleActions(this.isFromExpand && this.isToExpand)
         }
-        // else {
-        //     if (type === 'start') {
-        //         this.from.toggleDropdown(state)
-        //         this.to.toggleDropdown(!state)
-        //         this.isFromExpand = state
-        //     } else {
-        //         this.to.toggleDropdown(state)
-        //         this.from.toggleDropdown(!state)
-        //         this.isToExpand = state
-        //     }
-        //     this.toggleActions(this.isFromExpand || this.isToExpand)
-        // }
+        else {
+            if (type === 'start') {
+                this.from.toggleDropdown(state)
+                this.to.toggleDropdown(!state)
+                this.isFromExpand = state
+            } else {
+                this.to.toggleDropdown(state)
+                this.from.toggleDropdown(!state)
+                this.isToExpand = state
+            }
+            this.toggleActions(this.isFromExpand || this.isToExpand)
+        }
     }
 
     /**
