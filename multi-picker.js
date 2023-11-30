@@ -88,8 +88,8 @@ class MultiPicker {
         this.resetButton = document.querySelector(`#picker`).querySelector('.picker__reset')
         this.submitButton = document.querySelector(`#picker`).querySelector('.picker__submit')
         this.actionsElement = document.querySelector(`#picker`).querySelector('.picker__action')
-        this.from = new DatePicker('input_from', 'start')
-        this.to = new DatePicker('input_to', 'end')
+        this.from = new DatePicker('input_from', 'dropdown_from', 'start')
+        this.to = new DatePicker('input_to', 'dropdown_to', 'end')
 
         this.from.setOnChange(() => this.onChange())
         this.from.setOnToggleDropdown(v => this.onToggleDropdown(v, 'start'))
@@ -131,14 +131,30 @@ class MultiPicker {
      * @param {'start' | 'end'} type
      */
     onToggleDropdown(state, type) {
-        if (type === 'start') {
-            this.to.toggleDropdown(state)
-            this.isFromExpand = state
-        } else {
+        console.log(state, 'onToggleDropdown')
+        if (device_type === 'desktop') { 
             this.from.toggleDropdown(state)
-            this.isToExpand = state
+            // if (type === 'start') {
+            //     this.from.toggleDropdown(state)
+            //     this.isFromExpand = state
+            // } else {
+            //     this.to.toggleDropdown(state)
+            //     this.isToExpand = state
+            // }
+            // this.toggleActions(this.isFromExpand && this.isToExpand)
         }
-        this.toggleActions(state)
+        // else {
+        //     if (type === 'start') {
+        //         this.from.toggleDropdown(state)
+        //         this.to.toggleDropdown(!state)
+        //         this.isFromExpand = state
+        //     } else {
+        //         this.to.toggleDropdown(state)
+        //         this.from.toggleDropdown(!state)
+        //         this.isToExpand = state
+        //     }
+        //     this.toggleActions(this.isFromExpand || this.isToExpand)
+        // }
     }
 
     /**

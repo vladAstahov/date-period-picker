@@ -12,3 +12,9 @@ const monthMap = {
     10: 'Ноябрь',
     11: 'Декабрь',
 }
+
+let device_type = window.innerWidth > 640 ? 'desktop' : 'mobile'
+
+window.addEventListener('resize', () => {
+    device_type = window.innerWidth > 640 ? 'desktop' : 'mobile'
+})

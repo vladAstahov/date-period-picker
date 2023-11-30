@@ -23,6 +23,11 @@ class Field {
      * */
     #onChange
 
+    /**
+     * @type {() => void}
+     * */
+    #onFieldFocus
+
     get value() {
         return this.#value
     }
@@ -86,17 +91,32 @@ class Field {
         this.#onChange = handler
     }
 
+    get onFieldFocus() {
+        return this.#onFieldFocus
+    }
+
+    set onFieldFocus(handler) {
+        this.#onFieldFocus = handler
+    }
+
     /**
      * @param {string} id
      * */
     constructor(id) {
         this.rootElement = document.querySelector(`#${id}`)
+        this.rootElement.addEventListener('click', (e) => this.onRootPress(e))
         this.inputElement = this.rootElement.querySelector('.input__value')
         this.inputElement.addEventListener('input', () => this.onInput())
         this.inputElement.addEventListener('focus', () => this.onFocus())
         this.inputElement.addEventListener('blur', () => this.onBlur())
         this.contentElement = this.rootElement.querySelector('.input__text')
         this.cursorElement = this.rootElement.querySelector('.input__cursor')
+    }
+
+    onRootPress(e) {
+        if (!e.target?.classList?.contains('input__toggle-picker') && !e.target?.classList?.contains('input__clear')) {
+            this.inputElement.focus()
+        }
     }
 
     /**
@@ -124,13 +144,16 @@ class Field {
 
     onFocus() {
         this.rootElement.classList.add('is-focused')
+        this.onFieldFocus()
         if (this.inputElement.value) {
             this.onInput()
         }
     }
 
     onBlur() {
-        this.rootElement.classList.remove('is-focused')
+        if (this.value.length === 0) {
+            this.rootElement.classList.remove('is-focused')
+        }
         this.submit()
     }
 
@@ -144,7 +167,7 @@ class Field {
             result = result.slice(0, i) + newValue[i] + result.slice(i + 1, result.length)
         }
 
-        return result
+        return result.replaceAll(/\./g, '<span class="input__dot">.</span>')
     }
 
     onInput() {
@@ -153,10 +176,15 @@ class Field {
 
         this.value = convertedValue
         this.inputElement.value = convertedValue
-        this.contentElement.innerText = this.toContentValue(convertedValue)
+        this.contentElement.innerHTML = this.toContentValue(convertedValue)
 
         if (convertedValue.length === 10) {
             this.onChange(convertedValue)
+        }
+        if (convertedValue.length > 0 && !this.contentElement.classList.contains('is-filled')) {
+            this.contentElement.classList.add('is-filled')
+        } else if (convertedValue.length === 0) {
+            this.contentElement.classList.remove('is-filled')
         }
     }
 
@@ -250,6 +278,10 @@ class Field {
 
     setOnChange(handler) {
         this.onChange = handler
+    }
+
+    setOnFieldFocus(handler) {
+        this.onFieldFocus = handler
     }
 
     reset() {

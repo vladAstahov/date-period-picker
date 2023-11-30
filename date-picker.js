@@ -128,18 +128,19 @@ class DatePicker {
 
     /**
      * @param {string} id
+     * @param {string} dropdownId
      * @param {'start' | 'end'} type
      * */
-    constructor(id, type) {
-        this.dropdown = document.querySelector(`#${id}`).querySelector('.input__dropdown')
+    constructor(id, dropdownId, type) {
+        this.dropdown = document.querySelector(`#${dropdownId}`)
         this.clearButton = document.querySelector(`#${id}`).querySelector('.input__clear')
         this.clearButton.addEventListener('click', () => this.reset())
         this.togglePickerButton = document.querySelector(`#${id}`).querySelector('.input__toggle-picker')
         this.togglePickerButton.addEventListener('click', () => this.togglePicker())
         this.field = new Field(id)
-        this.yearPicker = new YearSelector(id)
-        this.monthPicker = new MonthSelector(id)
-        this.calendar = new Calendar(id, type)
+        this.yearPicker = new YearSelector(dropdownId)
+        this.monthPicker = new MonthSelector(dropdownId)
+        this.calendar = new Calendar(dropdownId, type)
 
         this.yearPicker.setOnChange((year) => {
             console.log(this.calendar)
@@ -191,6 +192,7 @@ class DatePicker {
                 end: type === 'end' ? this.value.day : undefined
             })
         })
+        this.field.setOnFieldFocus(() => this.onToggleDropdown(true))
     }
 
     /**
@@ -223,17 +225,19 @@ class DatePicker {
         this.monthPicker.reset()
         this.calendar.reset()
         this.hideDropdown()
+        this.clearButton.classList.add('is-hidden')
     }
 
     togglePicker() {
-        this.dropdown.classList.toggle('is-hidden')
-        this.onToggleDropdown(!this.dropdown.classList.contains('is-hidden'))
+        console.log('togglePicker', this.dropdown.classList.contains('is-hidden'))
+        this.onToggleDropdown(this.dropdown.classList.contains('is-hidden'))
     }
 
     /**
      * @param {boolean} value 
      */
     toggleDropdown(value) {
+        console.log(value, 'toggleDropdown')
         if (value) {
             this.dropdown.classList.remove('is-hidden')
         } else {
@@ -249,6 +253,7 @@ class DatePicker {
 
     submit() {
         this.field.setValue(this.value)
+        this.clearButton.classList.remove('is-hidden')
         this.hideDropdown()
     }
 }
