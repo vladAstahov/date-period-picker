@@ -35,6 +35,10 @@ class DatePicker {
      * @type {Calendar}
      * */
     #calendar
+    /**
+     * @type {(value: boolean) => void}
+     */
+    #onToggleDropdown
 
     get clearButton() {
         return this.#clearButton
@@ -114,6 +118,14 @@ class DatePicker {
         this.#calendar = element
     }
 
+    get onToggleDropdown() {
+        return this.#onToggleDropdown
+    }
+
+    set onToggleDropdown(handler) {
+        this.#onToggleDropdown = handler
+    }
+
     /**
      * @param {string} id
      * @param {'start' | 'end'} type
@@ -128,7 +140,6 @@ class DatePicker {
         this.yearPicker = new YearSelector(id)
         this.monthPicker = new MonthSelector(id)
         this.calendar = new Calendar(id, type)
-        console.log(this.calendar)
 
         this.yearPicker.setOnChange((year) => {
             console.log(this.calendar)
@@ -190,11 +201,10 @@ class DatePicker {
             ...this.value,
             ...partial
         }
-        console.log(start, end, 'PARTIAL')
-        if (start) {
+        if (typeof start !== 'undefined') {
             this.calendar.setStart(start)
         }
-        if (end) {
+        if (typeof end !== 'undefined') {
             this.calendar.setEnd(end)
         }
     }
@@ -203,14 +213,42 @@ class DatePicker {
         this.onChange = changeHandler
     }
 
+    setOnToggleDropdown(onOpenHandler) {
+        this.onToggleDropdown = onOpenHandler
+    }
+
     reset() {
         this.field.reset()
         this.yearPicker.reset()
         this.monthPicker.reset()
         this.calendar.reset()
+        this.hideDropdown()
     }
 
     togglePicker() {
         this.dropdown.classList.toggle('is-hidden')
+        this.onToggleDropdown(!this.dropdown.classList.contains('is-hidden'))
+    }
+
+    /**
+     * @param {boolean} value 
+     */
+    toggleDropdown(value) {
+        if (value) {
+            this.dropdown.classList.remove('is-hidden')
+        } else {
+            this.dropdown.classList.add('is-hidden')
+        }
+    }
+
+    hideDropdown() {
+        if (!this.dropdown.classList.contains('is-hidden')) {
+            this.dropdown.classList.add('is-hidden')
+        }
+    }
+
+    submit() {
+        this.field.setValue(this.value)
+        this.hideDropdown()
     }
 }

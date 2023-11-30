@@ -121,14 +121,10 @@ class Calendar {
     onPressOption(date) {
         if (this.type === 'start') {
             this.start = date.id
-            this.onChange({
-                start: date.id
-            })
+            this.onChange(date.id)
         } else {
             this.end = date.id
-            this.onChange({
-                end: date.id
-            })
+            this.onChange(date.id)
         }
         this.onBreakProintsChange()
     }
@@ -137,9 +133,8 @@ class Calendar {
      * @param {number} date
      * */
     getDayType(date) {
-        // console.log(this.start, this.end, 'PERIOD')
         if (date === this.start || date === this.end) return 'active'
-        if (this.start && this.end && date > this.start && date < this.end) return 'selected'
+        if (typeof this.start === 'number' && typeof this.end === 'number' && date > this.start && date < this.end) return 'selected'
         return 'default'
     }
 
@@ -161,10 +156,9 @@ class Calendar {
             })
         }
 
-        const emptyEndLength = 7 - newList.length % 7
+        const emptyEndLength = newList.length % 7 ? 7 - newList.length % 7 : 0
 
         for (let emptyEnd = 1; emptyEnd <= emptyEndLength; emptyEnd++) {
-            console.log(emptyEnd)
             newList.push(null)
         }
 
@@ -183,7 +177,9 @@ class Calendar {
 
     onBreakProintsChange() {
         this.rootElement.childNodes.forEach(dayButton => {
-            dayButton.classList = `calendar__option calendar__option--${this.getDayType(Number(dayButton.innerText))}`
+            if (Number(dayButton.innerText)) {
+                dayButton.classList = `calendar__option calendar__option--${this.getDayType(Number(dayButton.innerText))}`
+            }
         })
     }
 

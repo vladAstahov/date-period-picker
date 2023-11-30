@@ -104,7 +104,7 @@ class Field {
      * */
     isSeparatorRemoved(newValue) {
         if (this.value[2] === '.' && newValue[2] !== '.' && this.value.length > newValue.length) return 2
-        if (this.value[5] === '.' && newValue[5] === '.' && this.value.length > newValue.length) return 5
+        if (this.value[5] === '.' && newValue[5] !== '.' && this.value.length > newValue.length) return 5
         return 0
     }
 
@@ -114,8 +114,9 @@ class Field {
     backspaceFormated(newValue) {
         const removedIndex = this.isSeparatorRemoved(newValue)
         if (!!removedIndex) {
-            // TODO: relize
-            console.log(removedIndex)
+            const withBackspace = newValue.slice(0, removedIndex - 1) + newValue.slice(removedIndex + 1, newValue.length)
+
+            return removeSeparators(withBackspace)
         }
 
         return removeSeparators(newValue)
@@ -123,10 +124,27 @@ class Field {
 
     onFocus() {
         this.rootElement.classList.add('is-focused')
+        if (this.inputElement.value) {
+            this.onInput()
+        }
     }
 
     onBlur() {
         this.rootElement.classList.remove('is-focused')
+        this.submit()
+    }
+
+    /**
+     * @param {string} newValue 
+     */
+    toContentValue(newValue) {
+        let result = 'ДД.ММ.ГГГГ'
+
+        for (let i = 0; i < newValue.length; i++) {
+            result = result.slice(0, i) + newValue[i] + result.slice(i + 1, result.length)
+        }
+
+        return result
     }
 
     onInput() {
@@ -135,10 +153,32 @@ class Field {
 
         this.value = convertedValue
         this.inputElement.value = convertedValue
-        this.contentElement.innerText = convertedValue
+        this.contentElement.innerText = this.toContentValue(convertedValue)
 
         if (convertedValue.length === 10) {
             this.onChange(convertedValue)
+        }
+    }
+
+    /**
+     * @param {{day: number, month: number, year: number}} newValue 
+     */
+    setValue({ day, month, year }) {
+        const stringDay = day > 9 ? `${day}` : `0${day}`
+        const stringMonth = month + 1 > 9 ? `${month + 1}` : `0${month + 1}`
+        const convertedValue = `${stringDay}.${stringMonth}.${year}`
+
+        this.value = convertedValue
+        this.inputElement.value = convertedValue
+        this.submit()
+    }
+
+    submit() {
+        if (this.value.length === 10) {
+            const [day, month, year] = this.value.split('.')
+            const monthName = monthMap[Number(month) - 1]
+
+            this.contentElement.innerText = `${day} ${monthName} ${year}`
         }
     }
 
