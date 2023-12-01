@@ -40,6 +40,11 @@ class DatePicker {
      */
     #onToggleDropdown
 
+    /**
+     * @type {() => void}
+     */
+    #onReset
+
     get clearButton() {
         return this.#clearButton
     }
@@ -124,6 +129,14 @@ class DatePicker {
 
     set onToggleDropdown(handler) {
         this.#onToggleDropdown = handler
+    }
+
+    get onReset() {
+        return this.#onReset
+    }
+
+    set onReset(handler) {
+        this.#onReset = handler
     }
 
     /**
@@ -246,6 +259,7 @@ class DatePicker {
             month: undefined,
             year: undefined
         }
+        this.onReset()
     }
 
     togglePicker() {
@@ -275,5 +289,12 @@ class DatePicker {
         this.field.setValue(this.value)
         this.clearButton.classList.remove('is-hidden')
         this.hideDropdown()
+    }
+
+    /**
+     * @param {() => void} handler 
+     */
+    setOnReset(handler) {
+        this.onReset = handler
     }
 }

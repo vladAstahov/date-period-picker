@@ -630,6 +630,10 @@ body {
         width: calc(365px * 2 + 5px);
         height: 58px;
     }
+
+    .input__toggle-picker {
+        margin-left: auto;
+    }
 }
 
 .picker__action {
@@ -644,10 +648,6 @@ body {
 
 .input__main {
     display: flex;
-}
-
-.input__toggle-picker {
-    margin-left: 10px;
 }
 
 .input__field {

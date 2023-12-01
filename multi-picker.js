@@ -106,19 +106,21 @@ class MultiPicker {
 
         this.from.setOnChange(() => this.onChange())
         this.from.setOnToggleDropdown(v => this.onToggleDropdown(v, 'start'))
+        this.from.setOnReset(() => this.removeErrors())
         this.to.setOnChange(() => this.onChange())
         this.to.setOnToggleDropdown(v => this.onToggleDropdown(v, 'end'))
+        this.to.setOnReset(() => this.removeErrors())
         this.resetButton.addEventListener('click', () => this.reset())
         this.submitButton.addEventListener('click', () => this.submit())
 
-        // const currentDate = new Date()
-        // this.to.setInititalValue({
-        //     day: currentDate.getDate(),
-        //     month: currentDate.getMonth(),
-        //     year: currentDate.getFullYear(),
-        //     end: currentDate.getDate()
-        // })
-        // this.to.submit()
+        const currentDate = new Date()
+        this.to.setInititalValue({
+            day: currentDate.getDate(),
+            month: currentDate.getMonth(),
+            year: currentDate.getFullYear(),
+            end: currentDate.getDate()
+        })
+        this.to.submit()
     }
 
     isToFilled() {
