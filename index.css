@@ -132,20 +132,68 @@ body {
 
 .input__toggle-picker {
     margin-left: auto;
+    background-color: transparent;
 }
 
 .input__clear {
     transition: 0.3s ease;
     transition-property: width, opacity, background-color, color;
+
+    position: relative;
     opacity: 1;
     margin-left: 4px;
     height: 100%;
+}
+
+.input__clear--white,
+.input__clear--blue {
+    transition: 0.3s ease opacity;
+}
+
+.input__clear--white {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    opacity: 0;
 }
 
 .input__clear.is-hidden {
     width: 0;
     opacity: 0;
     margin-left: 0;
+}
+
+.input__clear::after {
+    transition: 0.3s ease;
+    transition-property: opacity, height;
+
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 0px;
+    opacity: 0;
+    background: url('./assets/alert.svg');
+}
+
+.input__clear:hover::after {
+    height: 56px;
+    opacity: 1;
+}
+
+.input__clear:hover {
+    background-color: #2961FE!important;
+}
+
+.input__clear:hover .input__clear--white {
+    opacity: 1;
+}
+
+.input__clear:hover .input__clear--blue {
+    opacity: 0;
 }
 
 .selector {

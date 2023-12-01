@@ -110,6 +110,15 @@ class MultiPicker {
         this.to.setOnToggleDropdown(v => this.onToggleDropdown(v, 'end'))
         this.resetButton.addEventListener('click', () => this.reset())
         this.submitButton.addEventListener('click', () => this.submit())
+
+        // const currentDate = new Date()
+        // this.to.setInititalValue({
+        //     day: currentDate.getDate(),
+        //     month: currentDate.getMonth(),
+        //     year: currentDate.getFullYear(),
+        //     end: currentDate.getDate()
+        // })
+        // this.to.submit()
     }
 
     isToFilled() {
@@ -267,9 +276,11 @@ class MultiPicker {
     validate() {
         if (this.isFromFilled() && this.isToFilled()) {
             const fromDate = new Date(this.from.value.year, this.from.value.month, this.from.value.day)
-            const toDate = new Date(this.to.value.year, this.from.value.month, this.to.value.day)
+            const toDate = new Date(this.to.value.year, this.to.value.month, this.to.value.day)
             const currentDate = new Date()
 
+            console.log(fromDate, 'fromDate')
+            console.log(toDate, 'toDate')
             if (currentDate < toDate || currentDate < fromDate) {
                 this.root.querySelector('.error__current-date').classList.remove('is-hidden')
                 return

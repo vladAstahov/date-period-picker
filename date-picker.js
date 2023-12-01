@@ -143,7 +143,6 @@ class DatePicker {
         this.calendar = new Calendar(dropdownId, type)
 
         this.yearPicker.setOnChange((year) => {
-            console.log(this.calendar)
             this.calendar.setYear(year)
             this.value = { year }
 
@@ -154,6 +153,7 @@ class DatePicker {
             })
         })
         this.monthPicker.setOnChange((month) => {
+            console.log(month, 'month')
             this.calendar.setMonth(month)
             this.value = { month }
 
@@ -199,10 +199,25 @@ class DatePicker {
     * @param {{ day?: number, month?: number, year?: number, start?: number, end?: number }} partial
     * */
     updateValue({ start, end, ...partial }) {
+        this.value = partial
+        if (typeof start !== 'undefined') {
+            this.calendar.setStart(start)
+        }
+        if (typeof end !== 'undefined') {
+            this.calendar.setEnd(end)
+        }
+    }
+
+    /**
+    * @param {{ day?: number, month?: number, year?: number, start?: number, end?: number }} partial
+    * */
+    setInititalValue({ start, end, ...partial }) {
         this.value = {
             ...this.value,
             ...partial
         }
+        this.monthPicker.setValue(this.value.month)
+        this.yearPicker.setValue(this.value.year)
         if (typeof start !== 'undefined') {
             this.calendar.setStart(start)
         }
