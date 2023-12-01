@@ -18,7 +18,8 @@
         <div class="picker__main">
             <div id="input_from" class="input picker__input">
                 <div class="input__main">
-                    <span class="input__label">ДАТА ОТ</span>
+                    <span class="input__label input__label--full">ДАТА ОТ </span>
+                    <span class="input__label input__label--shorted">ОТ </span>
                     <div class="input__field">
                         <span class="input__text">ДД<span class="input__dot">.</span>ММ<span
                                 class="input__dot">.</span>ГГГГ</span>
@@ -34,7 +35,8 @@
             </div>
             <div id="input_to" class="input picker__input">
                 <div class="input__main">
-                    <span class="input__label">ДАТА ДО</span>
+                    <span class="input__label input__label--full">ДАТА ДО </span>
+                    <span class="input__label input__label--shorted">ДО </span>
                     <div class="input__field">
                         <span class="input__text">ДД.ММ.ГГГГ</span>
                         <input class="input__value" />
@@ -47,6 +49,14 @@
                 <button class="input__clear is-hidden">
                     <img src="./assets/close.svg" />
                 </button>
+            </div>
+            <div class="error error__different is-hidden">
+                <img src="./assets/error.svg">
+                <p>Дата начала периода превышает дату окончания</p>
+            </div>
+            <div class="error error__current-date is-hidden">
+                <img src="./assets/error.svg">
+                <p>Выберите дату не позднее сегодняшнего дня</p>
             </div>
         </div>
         <div class="picker__dropdowns">

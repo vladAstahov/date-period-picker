@@ -12,7 +12,7 @@ class YearSelector extends TheSelector {
         const currentYear = new Date().getFullYear()
 
         for (let i = 0; i < 20; i++) {
-            const optionYear = currentYear + i
+            const optionYear = currentYear - i
             const option = document.createElement('button')
             option.classList = `selector__option selector__option--${optionYear}`
             option.innerText = `${optionYear}`

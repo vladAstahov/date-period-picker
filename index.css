@@ -105,6 +105,7 @@ body {
 
 .input__label {
     color: #BEBEBE;
+    margin-right: 5px;
 }
 
 .input__text {
@@ -144,6 +145,7 @@ body {
 .input__clear.is-hidden {
     width: 0;
     opacity: 0;
+    margin-left: 0;
 }
 
 .selector {
@@ -248,6 +250,8 @@ body {
 .calendar {
     display: flex;
     flex-wrap: wrap;
+    overflow-y: scroll;
+    max-height: calc(100vh - 90px - 82px - 113px);
 }
 
 .calendar__option {
@@ -284,17 +288,76 @@ body {
     display: none;
 }
 
+.input__label--shorted {
+    display: none;
+}
+
+.error {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: rgba(200, 0, 0, 1);
+    font-size: 19px;
+    z-index: -1;
+    margin-top: 5px;
+}
+
+.error.is-hidden {
+    display: none;
+}
+
+.picker__main {
+    position: relative;
+}
+
 @media (max-width: 480px) {
     .picker {
         margin: 0 17px;
+        overflow: hidden;
+        height: 100vh;
+    }
+
+    .input {
+        padding: 5px;
     }
 
     .input__main {
-        padding: 9.5px 28px;
+        padding: 4.5px 23px!important;
+    }
+
+    .input__toggle-picker {
+        margin-left: auto!important;
     }
 
     .selector {
         height: 41px;
+    }
+
+    .input.is-submited .input__label--full {
+        display: none;
+    }
+
+    .input.is-submited .input__label--shorted {
+        display: block;
+    }
+
+    .input.is-submited .input__toggle-picker,
+    .input.is-focused .input__toggle-picker{
+        display: none;
+    }
+
+    .input.is-submited .input__main {
+        padding-right: 10px!important;
+    }
+
+    .selector__dropdown {
+        padding-left: 17px!important;
+        padding-right: 17px!important;
     }
 }
 
@@ -533,7 +596,10 @@ body {
 
 .input__main {
     display: flex;
-    gap: 10px;
+}
+
+.input__toggle-picker {
+    margin-left: 10px;
 }
 
 .input__field {

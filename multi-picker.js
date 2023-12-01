@@ -1,5 +1,9 @@
 class MultiPicker {
     /**
+     * @type {HTMLDivElement}
+     * */
+    #root
+    /**
      * @type {DatePicker}
      * */
     #from
@@ -27,6 +31,14 @@ class MultiPicker {
      * @type {HTMLDivElement}
      * */
     #actionsElement
+
+    get root() {
+        return this.#root
+    }
+
+    set root(element) {
+        this.#root = element
+    }
 
     get from() {
         return this.#from
@@ -85,9 +97,10 @@ class MultiPicker {
     }
 
     constructor() {
-        this.resetButton = document.querySelector(`#picker`).querySelector('.picker__reset')
-        this.submitButton = document.querySelector(`#picker`).querySelector('.picker__submit')
-        this.actionsElement = document.querySelector(`#picker`).querySelector('.picker__action')
+        this.root = document.querySelector(`#picker`)
+        this.resetButton = this.root.querySelector('.picker__reset')
+        this.submitButton = this.root.querySelector('.picker__submit')
+        this.actionsElement = this.root.querySelector('.picker__action')
         this.from = new DatePicker('input_from', 'dropdown_from', 'start')
         this.to = new DatePicker('input_to', 'dropdown_to', 'end')
 
@@ -114,7 +127,8 @@ class MultiPicker {
     onChange() {
         if (
             this.isToFilled() &&
-            this.isFromFilled()) {
+            this.isFromFilled() &&
+            this.to.value.month >= this.from.value.month && this.to.value.year >= this.from.value.year) {
             if (this.to.value.month === this.from.value.month && this.to.value.year === this.from.value.year) {
                 this.to.updateValue({
                     start: this.from.value.day
@@ -242,6 +256,31 @@ class MultiPicker {
             this.isToExpand = false
         }
         this.toggleActions()
+        this.removeErrors()
+    }
+
+    removeErrors() {
+        this.root.querySelector('.error__different').classList.add('is-hidden')
+        this.root.querySelector('.error__current-date').classList.add('is-hidden')
+    }
+
+    validate() {
+        if (this.isFromFilled() && this.isToFilled()) {
+            const fromDate = new Date(this.from.value.year, this.from.value.month, this.from.value.day)
+            const toDate = new Date(this.to.value.year, this.from.value.month, this.to.value.day)
+            const currentDate = new Date()
+
+            if (currentDate < toDate || currentDate < fromDate) {
+                this.root.querySelector('.error__current-date').classList.remove('is-hidden')
+                return
+            }
+            if (fromDate > toDate) {
+                this.root.querySelector('.error__different').classList.remove('is-hidden')
+                return
+            }
+
+            console.log('valid')
+        }
     }
 
     submit() {
@@ -259,5 +298,7 @@ class MultiPicker {
         }
         this.toggleActions()
         this.disableSubmitButton()
+        this.removeErrors()
+        this.validate()
     }
 }
