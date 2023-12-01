@@ -99,16 +99,23 @@ class MultiPicker {
         this.submitButton.addEventListener('click', () => this.submit())
     }
 
+    isToFilled() {
+        return typeof this.to.value?.month !== 'undefined' &&
+            typeof this.to.value?.year !== 'undefined' &&
+            typeof this.to.value?.day !== 'undefined'
+    }
+
+    isFromFilled() {
+        return typeof this.from.value?.month !== 'undefined' &&
+            typeof this.from.value?.year !== 'undefined' &&
+            typeof this.from.value?.day !== 'undefined'
+    }
+
     onChange() {
         if (
-            typeof this.to.value?.month !== 'undefined' &&
-            typeof this.to.value?.year !== 'undefined' &&
-            typeof this.to.value?.day !== 'undefined' &&
-            typeof this.from.value?.month !== 'undefined' &&
-            typeof this.from.value?.year !== 'undefined' &&
-            typeof this.from.value?.day !== 'undefined') {
+            this.isToFilled() &&
+            this.isFromFilled()) {
             if (this.to.value.month === this.from.value.month && this.to.value.year === this.from.value.year) {
-                console.log(this.from.value.day, this.to.value.day)
                 this.to.updateValue({
                     start: this.from.value.day
                 })
@@ -124,6 +131,15 @@ class MultiPicker {
                 })
             }
             this.enableSubmitButton()
+            this.enableResetButton()
+        }
+        if (this.isToFilled() && this.actionsElement.classList.contains('is-right')) {
+            this.enableSubmitButton()
+            this.enableResetButton()
+        }
+        if (this.isFromFilled() && this.actionsElement.classList.contains('is-left')) {
+            this.enableSubmitButton()
+            this.enableResetButton()
         }
     }
 
@@ -137,12 +153,21 @@ class MultiPicker {
         this.resetButton.classList.add('is-disabled')
     }
 
+    enableResetButton() {
+        this.submitButton.classList.remove('is-disabled')
+    }
+
+    disableResetButton() {
+        if (!this.resetButton.classList.contains('is-disabled')) {
+            this.resetButton.classList.add('is-disabled')
+        }
+    }
+
     /**
      * @param {boolean} state
      * @param {'start' | 'end'} type
      */
     onToggleDropdown(state, type) {
-        console.log(state, 'onToggleDropdown')
         if (device_type === 'desktop') {
             if (type === 'start') {
                 this.from.toggleDropdown(state)
@@ -151,42 +176,88 @@ class MultiPicker {
                 this.to.toggleDropdown(state)
                 this.isToExpand = state
             }
-            this.toggleActions(this.isFromExpand && this.isToExpand)
+            this.toggleActions()
         }
         else {
             if (type === 'start') {
                 this.from.toggleDropdown(state)
-                this.to.toggleDropdown(!state)
+                if (state) {
+                    this.to.toggleDropdown(!state)
+                    this.isToExpand = !state
+                }
                 this.isFromExpand = state
             } else {
                 this.to.toggleDropdown(state)
-                this.from.toggleDropdown(!state)
+                if (state) {
+                    this.from.toggleDropdown(!state)
+                    this.isFromExpand = !state
+                }
                 this.isToExpand = state
             }
-            this.toggleActions(this.isFromExpand || this.isToExpand)
+            this.toggleActions()
         }
     }
 
-    /**
-     * @param {boolean} state 
-     */
-    toggleActions(state) {
-        if (state) {
+    toggleActions() {
+        if (this.isFromExpand && this.isToExpand) {
+            this.actionsElement.classList.remove('is-left')
+            this.actionsElement.classList.remove('is-right')
+            this.actionsElement.classList.add('is-both')
+            this.actionsElement.classList.remove('is-hidden')
+        } else if (this.isFromExpand) {
+            this.actionsElement.classList.add('is-left')
+            this.actionsElement.classList.remove('is-right')
+            this.actionsElement.classList.remove('is-both')
+            this.actionsElement.classList.remove('is-hidden')
+        } else if (this.isToExpand) {
+            this.actionsElement.classList.add('is-right')
+            this.actionsElement.classList.remove('is-left')
+            this.actionsElement.classList.remove('is-both')
             this.actionsElement.classList.remove('is-hidden')
         } else {
             this.actionsElement.classList.add('is-hidden')
+            this.actionsElement.classList.remove('is-left')
+            this.actionsElement.classList.remove('is-right')
+            this.actionsElement.classList.remove('is-both')
         }
     }
 
     reset() {
-        this.from.reset()
-        this.to.reset()
-        this.disableSubmitButton()
+        if (this.isFromExpand && this.isToExpand) {
+            this.from.reset()
+            this.to.reset()
+            this.disableSubmitButton()
+            this.disableResetButton()
+            this.isFromExpand = false
+            this.isToExpand = false
+        } else if (this.isFromExpand) {
+            this.from.reset()
+            this.disableSubmitButton()
+            this.disableResetButton()
+            this.isFromExpand = false
+        } else {
+            this.to.reset()
+            this.disableSubmitButton()
+            this.disableResetButton()
+            this.isToExpand = false
+        }
+        this.toggleActions()
     }
 
     submit() {
-        this.from.submit()
-        this.to.submit()
+        if (this.isFromExpand && this.isToExpand) {
+            this.from.submit()
+            this.to.submit()
+            this.isFromExpand = false
+            this.isToExpand = false
+        } else if (this.isFromExpand) {
+            this.from.submit()
+            this.isFromExpand = false
+        } else {
+            this.to.submit()
+            this.isToExpand = false
+        }
         this.toggleActions()
+        this.disableSubmitButton()
     }
 }

@@ -114,7 +114,12 @@ class Field {
     }
 
     onRootPress(e) {
-        if (!e.target?.classList?.contains('input__toggle-picker') && !e.target?.classList?.contains('input__clear')) {
+        console.log(e.target.tagName)
+
+        if (
+            !e.target?.classList?.contains('input__toggle-picker') &&
+            !e.target?.classList?.contains('input__clear') &&
+            e.target.tagName !== 'IMG') {
             this.inputElement.focus()
         }
     }
