@@ -109,6 +109,8 @@ body {
     width: 24px;
     height: 24px;
     box-sizing: border-box;
+    border: none;
+    cursor: pointer;
 }
 
 .input__toggle-picker {
@@ -154,6 +156,10 @@ body {
 }
 
 .selector__dropdown-toggle {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
     background-color: transparent;
     border: none;
     color: #2961FE;
@@ -188,7 +194,8 @@ body {
 }
 
 .selector__option {
-    transition: 0.3s ease background-color;
+    transition: 0.3s ease;
+    transition-property: height, opacity;
 
     display: block;
     height: 50px;
@@ -199,6 +206,23 @@ body {
     padding: 14px;
     border: 0.5px solid #969FA8;
     width: 100%;
+}
+
+.selector__option.is-hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin-top: -30px;
+}
+
+.selector__option.is-hidden::before {
+    top: 0;
+    height: 0;
+}
+
+.selector__option.is-hidden::after {
+    top: 0;
+    height: 0;
 }
 
 .selector__option.is-active {
@@ -304,6 +328,7 @@ body {
 
     .selector__close {
         width: 27px;
+        border: none;
     }
 
     .selector__title {
