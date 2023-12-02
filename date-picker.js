@@ -164,6 +164,7 @@ class DatePicker {
                 start: type === 'start' ? this.value.day : undefined,
                 end: type === 'end' ? this.value.day : undefined
             })
+            this.field.setValue(this.value)
         })
         this.monthPicker.setOnChange((month) => {
             console.log(month, 'month')
@@ -175,6 +176,7 @@ class DatePicker {
                 start: type === 'start' ? this.value.day : undefined,
                 end: type === 'end' ? this.value.day : undefined
             })
+            this.field.setValue(this.value)
         })
         this.calendar.setOnChange((day) => {
             this.value = { day }
@@ -184,6 +186,8 @@ class DatePicker {
                 start: type === 'start' ? this.value.day : undefined,
                 end: type === 'end' ? this.value.day : undefined
             })
+            console.log(day, 'this.calendar.setOnChange')
+            this.field.setValue(this.value)
         })
         this.field.setOnChange((fieldValue) => {
             this.value = {
@@ -259,7 +263,6 @@ class DatePicker {
             month: undefined,
             year: undefined
         }
-        this.onReset()
     }
 
     togglePicker() {
@@ -271,7 +274,6 @@ class DatePicker {
      * @param {boolean} value 
      */
     toggleDropdown(value) {
-        console.log(value, 'toggleDropdown')
         if (value) {
             this.dropdown.classList.remove('is-hidden')
         } else {

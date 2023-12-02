@@ -12,6 +12,10 @@ class Calendar {
     /**
      * @type {HTMLDivElement}
      * */
+    #calendarElement
+    /**
+     * @type {HTMLDivElement}
+     * */
     #rootElement
     /**
      * @type {(Day | null)[]}
@@ -41,6 +45,14 @@ class Calendar {
      * @type {(date: {start?: number, end?: number}) => void}
      * */
     #onChange
+
+    get calendarElement() {
+        return this.#calendarElement
+    }
+
+    set calendarElement(element) {
+        this.#calendarElement = element
+    }
 
     get rootElement() {
         return this.#rootElement
@@ -111,7 +123,8 @@ class Calendar {
      * @param {CalendarType} type
      */
     constructor(id, type) {
-        this.rootElement = document.querySelector(`#${id}`).querySelector('.calendar')
+        this.calendarElement = document.querySelector(`#${id}`).querySelector('.calendar')
+        this.rootElement = this.calendarElement.querySelector('.calendar__list')
         this.type = type
     }
 
@@ -188,8 +201,14 @@ class Calendar {
      * */
     setYear(newYear) {
         this.year = newYear
-        if (this.month) {
+        console.log(this.month, this.year, 'this.month && this.year')
+        if (this.month && this.year) {
             this.generateList()
+            this.calendarElement.classList.remove('is-hidden')
+        } else {
+            if (!this.calendarElement.classList.contains('is-hidden')) {
+                this.calendarElement.classList.add('is-hidden')
+            }
         }
     }
 
@@ -198,8 +217,13 @@ class Calendar {
      * */
     setMonth(newMonth) {
         this.month = newMonth
-        if (this.year) {
+        if (this.month && this.year) {
             this.generateList()
+            this.calendarElement.classList.remove('is-hidden')
+        } else {
+            if (!this.calendarElement.classList.contains('is-hidden')) {
+                this.calendarElement.classList.add('is-hidden')
+            }
         }
     }
 
@@ -234,10 +258,10 @@ class Calendar {
     reset() {
         if (this.type === 'start') {
             this.start = null
-            this.onChange({ start: null })
+            this.onChange(null)
         } else {
             this.end = null
-            this.onChange({ end: null })
+            this.onChange(null)
         }
     }
 }

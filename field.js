@@ -195,16 +195,35 @@ class Field {
     }
 
     /**
-     * @param {{day: number, month: number, year: number}} newValue 
+     * @param {{day?: number, month?: number, year?: number}} newValue
      */
     setValue({ day, month, year }) {
-        const stringDay = day > 9 ? `${day}` : `0${day}`
-        const stringMonth = month + 1 > 9 ? `${month + 1}` : `0${month + 1}`
-        const convertedValue = `${stringDay}.${stringMonth}.${year}`
+        const isDay = typeof day !== 'undefined' && day !== null
+        const isMonth = typeof month !== 'undefined' && month !== null
+        const isYear = typeof year !== 'undefined' && year !== null
 
-        this.value = convertedValue
-        this.inputElement.value = convertedValue
-        this.submit()
+        console.log(day, 'setValue')
+
+        const stringDay = isDay ? day > 9 ? `${day}` : `0${day}` : 'ДД'
+        const stringMonth = isMonth ? month + 1 > 9 ? `${month + 1}` : `0${month + 1}` : 'ММ'
+        const stringYear = isYear ? `${year}` : 'ГГГГ'
+        const convertedValue = `${stringDay}.${stringMonth}.${stringYear}`
+
+        if (isDay || isMonth || isYear) {
+            this.rootElement.classList.add('is-focused')
+            this.contentElement.classList.add('is-filled')
+        } else {
+            this.rootElement.classList.remove('is-focused')
+            this.contentElement.classList.remove('is-filled')
+        }
+
+        if (isDay && isMonth && isYear) {
+            this.value = convertedValue
+            this.inputElement.value = convertedValue
+            this.submit()
+        } else {
+            this.contentElement.innerHTML = this.toContentValue(convertedValue)
+        }
     }
 
     submit() {
@@ -296,5 +315,7 @@ class Field {
         this.inputElement.value = ''
         this.contentElement.innerText = 'ДД.ММ.ГГГГ'
         this.rootElement.classList.remove('is-submited')
+        this.rootElement.classList.remove('is-focused')
+        this.contentElement.classList.remove('is-filled')
     }
 }

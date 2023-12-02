@@ -119,6 +119,7 @@ body {
 
 .input__text.is-filled {
     color: #000000;
+    font-weight: bold;
 }
 
 .input__toggle-picker,
@@ -296,10 +297,22 @@ body {
 }
 
 .calendar {
-    display: flex;
-    flex-wrap: wrap;
+    transition: 0.3s ease;
+    transition-property: opacity, height;
+
     overflow-y: scroll;
     max-height: calc(100vh - 90px - 82px - 113px);
+}
+
+.calendar.is-hidden {
+    opacity: 0;
+    height: 0;
+}
+
+.calendar__list,
+.calendar__header{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .calendar__option {
@@ -312,6 +325,7 @@ body {
     background-color: #fff;
     color: rgba(108, 163, 254, 1);
     font-size: 19px;
+    box-sizing: border-box;
 }
 
 .calendar__option--selected {
@@ -322,6 +336,12 @@ body {
 .calendar__option--active {
     background-color: rgba(40, 121, 255, 1);
     color: rgba(255, 255, 255, 1);
+}
+
+.calendar__header .calendar__option {
+    color: #000;
+    text-align: center;
+    line-height: 200%;
 }
 
 .selector__header {
