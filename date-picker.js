@@ -241,6 +241,7 @@ class DatePicker {
         if (typeof end !== 'undefined') {
             this.calendar.setEnd(end)
         }
+        this.field.submit()
     }
 
     setOnChange(changeHandler) {
@@ -288,7 +289,7 @@ class DatePicker {
     }
 
     submit() {
-        this.field.setValue(this.value)
+        this.field.submit()
         this.clearButton.classList.remove('is-hidden')
         this.hideDropdown()
     }

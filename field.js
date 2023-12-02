@@ -216,11 +216,13 @@ class Field {
             this.rootElement.classList.remove('is-focused')
             this.contentElement.classList.remove('is-filled')
         }
+        this.rootElement.classList.remove('is-submited')
+
 
         if (isDay && isMonth && isYear) {
             this.value = convertedValue
             this.inputElement.value = convertedValue
-            this.submit()
+            this.contentElement.innerHTML = this.toContentValue(convertedValue)
         } else {
             this.contentElement.innerHTML = this.toContentValue(convertedValue)
         }

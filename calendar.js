@@ -201,8 +201,12 @@ class Calendar {
      * */
     setYear(newYear) {
         this.year = newYear
-        console.log(this.month, this.year, 'this.month && this.year')
-        if (this.month && this.year) {
+
+        const isMonth = typeof this.month !== 'undefined' && this.month !== null
+        const isYear = typeof this.year !== 'undefined' && this.year !== null
+        const isCalendar = isMonth && isYear
+
+        if (isCalendar) {
             this.generateList()
             this.calendarElement.classList.remove('is-hidden')
         } else {
@@ -217,7 +221,12 @@ class Calendar {
      * */
     setMonth(newMonth) {
         this.month = newMonth
-        if (this.month && this.year) {
+
+        const isMonth = typeof this.month !== 'undefined' && this.month !== null
+        const isYear = typeof this.year !== 'undefined' && this.year !== null
+        const isCalendar = isMonth && isYear
+
+        if (isCalendar) {
             this.generateList()
             this.calendarElement.classList.remove('is-hidden')
         } else {
