@@ -155,23 +155,38 @@ class MultiPicker {
                     end: 32
                 })
             }
-            this.enableSubmitButton()
+            if (device_type === 'desktop') {
+                this.enableSubmitButton()   
+            }
         }
-        if (this.from.value?.year && typeof this.from.value?.month !== 'undefined' && this.to.value?.year && typeof this.to.value?.month !== 'undefined') {
-            this.showAction()
+        if (device_type === 'desktop') {
+            if (this.from.value?.year && typeof this.from.value?.month !== 'undefined' && this.to.value?.year && typeof this.to.value?.month !== 'undefined') {
+                this.showAction()
+            } else {
+                this.hideActions()
+            }
         } else {
-            this.hideActions()
+            if ((this.from.value?.year && typeof this.from.value?.month !== 'undefined' && this.isFromExpand) || (this.to.value?.year && typeof this.to.value?.month !== 'undefined' && this.isToExpand)) {
+                this.showAction()
+            } else {
+                this.hideActions()
+            }
+            if (this.isFromFilled && this.isFromExpand) {
+                this.enableSubmitButton()
+            } else if (this.isToFilled && this.isToExpand) {
+                this.enableSubmitButton()
+            } else {
+                this.disableSubmitButton()
+            }
         }
     }
 
     enableSubmitButton() {
         this.submitButton.classList.remove('is-disabled')
-        this.resetButton.classList.remove('is-disabled')
     }
 
     disableSubmitButton() {
         this.submitButton.classList.add('is-disabled')
-        this.resetButton.classList.add('is-disabled')
     }
 
     enableResetButton() {
@@ -208,6 +223,11 @@ class MultiPicker {
                     this.isToExpand = !state
                 }
                 this.isFromExpand = state
+                if (this.from.value?.year && typeof this.from.value?.month !== 'undefined' && state) {
+                    this.showAction()
+                } else {
+                    this.hideActions()
+                }
             } else {
                 this.to.toggleDropdown(state)
                 if (state) {
@@ -215,6 +235,11 @@ class MultiPicker {
                     this.isFromExpand = !state
                 }
                 this.isToExpand = state
+                if (this.to.value?.year && typeof this.to.value?.month !== 'undefined' && state) {
+                    this.showAction()
+                } else {
+                    this.hideActions()
+                }
             }
         }
     }
@@ -226,7 +251,7 @@ class MultiPicker {
     }
 
     showAction() {
-        this.#actionsElement.classList.remove('is-hidden')
+        this.actionsElement.classList.remove('is-hidden')
     }
 
     reset() {
