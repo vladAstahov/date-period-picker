@@ -156,15 +156,11 @@ class MultiPicker {
                 })
             }
             this.enableSubmitButton()
-            this.enableResetButton()
         }
-        if (this.isToFilled() && this.actionsElement.classList.contains('is-right')) {
-            this.enableSubmitButton()
-            this.enableResetButton()
-        }
-        if (this.isFromFilled() && this.actionsElement.classList.contains('is-left')) {
-            this.enableSubmitButton()
-            this.enableResetButton()
+        if (this.from.value?.year && typeof this.from.value?.month !== 'undefined' && this.to.value?.year && typeof this.to.value?.month !== 'undefined') {
+            this.showAction()
+        } else {
+            this.hideActions()
         }
     }
 
@@ -194,14 +190,15 @@ class MultiPicker {
      */
     onToggleDropdown(state, type) {
         if (device_type === 'desktop') {
-            if (type === 'start') {
-                this.from.toggleDropdown(state)
-                this.isFromExpand = state
+            this.to.toggleDropdown(state)
+            this.isToExpand = state
+            this.from.toggleDropdown(state)
+            this.isFromExpand = state
+            if (this.from.value?.year && typeof this.from.value?.month !== 'undefined' && this.to.value?.year && typeof this.to.value?.month !== 'undefined') {
+                this.showAction()
             } else {
-                this.to.toggleDropdown(state)
-                this.isToExpand = state
+                this.hideActions()
             }
-            this.toggleActions()
         }
         else {
             if (type === 'start') {
@@ -219,54 +216,25 @@ class MultiPicker {
                 }
                 this.isToExpand = state
             }
-            this.toggleActions()
         }
     }
 
-    toggleActions() {
-        if (this.isFromExpand && this.isToExpand) {
-            this.actionsElement.classList.remove('is-left')
-            this.actionsElement.classList.remove('is-right')
-            this.actionsElement.classList.add('is-both')
-            this.actionsElement.classList.remove('is-hidden')
-        } else if (this.isFromExpand) {
-            this.actionsElement.classList.add('is-left')
-            this.actionsElement.classList.remove('is-right')
-            this.actionsElement.classList.remove('is-both')
-            this.actionsElement.classList.remove('is-hidden')
-        } else if (this.isToExpand) {
-            this.actionsElement.classList.add('is-right')
-            this.actionsElement.classList.remove('is-left')
-            this.actionsElement.classList.remove('is-both')
-            this.actionsElement.classList.remove('is-hidden')
-        } else {
+    hideActions() {
+        if (!this.actionsElement.classList.contains('is-hidden')) {
             this.actionsElement.classList.add('is-hidden')
-            this.actionsElement.classList.remove('is-left')
-            this.actionsElement.classList.remove('is-right')
-            this.actionsElement.classList.remove('is-both')
         }
+    }
+
+    showAction() {
+        this.#actionsElement.classList.remove('is-hidden')
     }
 
     reset() {
-        if (this.isFromExpand && this.isToExpand) {
-            this.from.reset()
-            this.to.reset()
-            this.disableSubmitButton()
-            this.disableResetButton()
-            this.isFromExpand = false
-            this.isToExpand = false
-        } else if (this.isFromExpand) {
-            this.from.reset()
-            this.disableSubmitButton()
-            this.disableResetButton()
-            this.isFromExpand = false
-        } else {
-            this.to.reset()
-            this.disableSubmitButton()
-            this.disableResetButton()
-            this.isToExpand = false
-        }
-        this.toggleActions()
+        this.from.reset()
+        this.to.reset()
+        this.disableSubmitButton()
+        this.disableResetButton()
+        this.hideActions()
         this.removeErrors()
     }
 
@@ -281,8 +249,6 @@ class MultiPicker {
             const toDate = new Date(this.to.value.year, this.to.value.month, this.to.value.day)
             const currentDate = new Date()
 
-            console.log(fromDate, 'fromDate')
-            console.log(toDate, 'toDate')
             if (currentDate < toDate || currentDate < fromDate) {
                 this.root.querySelector('.error__current-date').classList.remove('is-hidden')
                 return
@@ -291,8 +257,6 @@ class MultiPicker {
                 this.root.querySelector('.error__different').classList.remove('is-hidden')
                 return
             }
-
-            console.log('valid')
         }
     }
 
@@ -309,7 +273,7 @@ class MultiPicker {
             this.to.submit()
             this.isToExpand = false
         }
-        this.toggleActions()
+        this.hideActions()
         this.disableSubmitButton()
         this.removeErrors()
         this.validate()

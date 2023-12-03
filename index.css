@@ -104,7 +104,7 @@ body {
 }
 
 .input__label {
-    color: #BEBEBE;
+    color: #434C4E;
     margin-right: 5px;
 }
 
@@ -178,6 +178,7 @@ body {
     height: 0px;
     opacity: 0;
     background: url('./assets/alert.svg');
+    z-index: 5;
 }
 
 .input__clear:hover::after {
@@ -186,7 +187,7 @@ body {
 }
 
 .input__clear:hover {
-    background-color: #2961FE!important;
+    background-color: #2961FE !important;
 }
 
 .input__clear:hover .input__clear--white {
@@ -310,7 +311,7 @@ body {
 }
 
 .calendar__list,
-.calendar__header{
+.calendar__header {
     display: flex;
     flex-wrap: wrap;
 }
@@ -395,11 +396,11 @@ body {
     }
 
     .input__main {
-        padding: 4.5px 23px!important;
+        padding: 4.5px 23px !important;
     }
 
     .input__toggle-picker {
-        margin-left: auto!important;
+        margin-left: auto !important;
     }
 
     .selector {
@@ -415,17 +416,17 @@ body {
     }
 
     .input.is-submited .input__toggle-picker,
-    .input.is-focused .input__toggle-picker{
+    .input.is-focused .input__toggle-picker {
         display: none;
     }
 
     .input.is-submited .input__main {
-        padding-right: 10px!important;
+        padding-right: 10px !important;
     }
 
     .selector__dropdown {
-        padding-left: 17px!important;
-        padding-right: 17px!important;
+        padding-left: 17px !important;
+        padding-right: 17px !important;
     }
 }
 
@@ -458,8 +459,8 @@ body {
         order: -1;
         gap: 10px;
         padding: 0;
-        width: 100%!important;
-        margin-left: 0!important;
+        width: 100% !important;
+        margin-left: 0 !important;
     }
 
     .picker__action button {

@@ -257,7 +257,6 @@ class DatePicker {
         this.yearPicker.reset()
         this.monthPicker.reset()
         this.calendar.reset()
-        this.hideDropdown()
         this.clearButton.classList.add('is-hidden')
         this.value = {
             day: undefined,

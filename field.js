@@ -159,7 +159,6 @@ class Field {
         if (this.value.length === 0) {
             this.rootElement.classList.remove('is-focused')
         }
-        this.submit()
     }
 
     /**

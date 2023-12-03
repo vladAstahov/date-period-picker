@@ -265,12 +265,8 @@ class Calendar {
     }
 
     reset() {
-        if (this.type === 'start') {
-            this.start = null
-            this.onChange(null)
-        } else {
-            this.end = null
-            this.onChange(null)
-        }
+        this.end = null
+        this.start = null
+        this.onChange(null)
     }
 }
